@@ -1,8 +1,8 @@
 #include <Arduino.h>
 
-#define RED_LED D5 //led warna merah
-#define GREEN_LED D6 //led warna hijau
-#define BLUE_LED D7 //led warnah biru
+#define RED_LED D2 //led warna merah
+#define GREEN_LED D3 //led warna hijau
+#define BLUE_LED D4 //led warnah biru
 
 void setup() {
   Serial.begin(115200);
