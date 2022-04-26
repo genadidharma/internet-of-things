@@ -12,21 +12,13 @@ class ClientThread(Thread):
         print("Incoming connection from " + ip + ":" + str(port))
 
     def run(self):
-        while True:
-            try:
-                data = conn.recv(2048)
-                print("data length: ", data)
-                if len(data) == 0:
+            while True:
+                try:
+                    MESSAGE = input("Input response:")
+                    conn.send(MESSAGE.encode("utf8"))  # echo
+                except Exception as e:
+                    print(e)
                     break
-
-                print("length: " + str(len(data)))
-                print("Server received data:", data)
-                # MESSAGE = input("Input response:")
-                MESSAGE = "OK"
-                conn.send(MESSAGE.encode("utf8"))  # echo
-            except Exception as e:
-                print(e)
-                break
 
 
 TCP_IP = "0.0.0.0"

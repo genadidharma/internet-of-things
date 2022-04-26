@@ -1,6 +1,6 @@
 import socket
 from threading import Thread
-
+from datetime import datetime
 
 # Multithreaded Python server
 class ClientThread(Thread):
@@ -12,21 +12,31 @@ class ClientThread(Thread):
         print("Incoming connection from " + ip + ":" + str(port))
 
     def run(self):
-        while True:
-            try:
-                data = conn.recv(2048)
-                print("data length: ", data)
-                if len(data) == 0:
+            while True:
+                try:
+                    data = conn.recv(2048)
+                    if len(data) == 0:
+                        break
+
+                    hours,_,_ = map(int, data.decode('utf8').split(':'))
+
+                    MESSAGE = self.get_part_of_day(int(hours))
+                    print("Good ", MESSAGE)
+                    conn.send(MESSAGE.encode("utf8"))
+                except Exception as e:
+                    print(e)
                     break
 
-                print("length: " + str(len(data)))
-                print("Server received data:", data)
-                # MESSAGE = input("Input response:")
-                MESSAGE = "OK"
-                conn.send(MESSAGE.encode("utf8"))  # echo
-            except Exception as e:
-                print(e)
-                break
+    def get_part_of_day(self, h):
+        return (
+            "morning"
+            if 5 <= h <= 11
+            else "afternoon"
+            if 12 <= h <= 17
+            else "evening"
+            if 18 <= h <= 22
+            else "night"
+        )
 
 
 TCP_IP = "0.0.0.0"
