@@ -50,13 +50,15 @@ void loop()
 {
   if (client.connected())
   {
-    Serial.println("[Sending a request]");
+    Serial.println("[Sending a request]\n");
 
     const char date[] = __TIME__;
     client.print(date);
 
     Serial.println("[Response:]");
     String line = client.readStringUntil('\n');
+
+    Serial.println("Time: " + String(date));
 
     if(line.equalsIgnoreCase("evening") || line.equalsIgnoreCase("night")){
       digitalWrite(LED, HIGH);
